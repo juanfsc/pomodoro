@@ -1,0 +1,45 @@
+
+nav{
+    display: flex;
+    justify-content:space-between;
+}
+body{
+    font-size: 1.5rem;
+}
+.flexr{
+    display: flex;   
+    flex-direction: row;
+    justify-content:center;
+    justify-content:space-around;
+}
+.flexc{
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+}
+
+.reloj {
+    background-color: rgb(185, 185, 185);
+    border-radius: 50%;
+    width: 75vw;
+    height: 75vw;
+
+}
+.reloj-font{
+    font-size: 3.5rem;
+}
+.contador{
+    padding-top: 50px;
+    
+}
+.botones{
+
+}
+.botones-padding{
+    padding-top: 50px;
+    padding-bottom: 50px
+}
+
+@media(max-width: 375px){
+    
+}

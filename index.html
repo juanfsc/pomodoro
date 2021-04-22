@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style/style.css">
+    <title>Pomo - </title>
+</head>
+<body>
+    <nav>
+        <div>Pomo</div>
+        <div>User Statistics</div>
+        <div>Configuration</div>
+    </nav>
+    
+    <main>
+        <div class="contador flexr">
+            <div class="reloj flexr">
+                <p class="reloj-font flexc" id='contador'>__</p>
+            </div>
+            
+        </div>
+        <div class="botones flexr botones-padding">
+            <p id="play">Play</p>
+            <p id="pause">Pause</p>
+            <p id="stop">Stop</p>
+        </div>
+        <div class="flexc ">
+            <label for="minutos">Pomodoro:</label><br>
+            <input type="text" id="minutos"><br>
+            <label for="B">Break:</label><br>
+            <input type="text" id="break"><br>
+            <label for="longBreak">Long Break:</label><br>
+            <input type="text" id="longBreak"><br>
+            <label for="longBreakInterval">Intervalo Long Break:</label><br>
+            <input type="text" id="longBreakInterval"><br>            
+            <label for="autoStart">Auto Start?</label><br>
+            <input type="checkbox" id="autoStart">
+            <input type="submit" value="Submit" onclick="pomo.modificarVariables()">
+            
+        </div> 
+    </main>
+    <footer>
+            
+    </footer>
+</body>
+</html>
+<script src="./script/main.js"></script>
