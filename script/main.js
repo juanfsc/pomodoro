@@ -1,7 +1,4 @@
 
-let logUsuario = localStorage.setItem('logUsuario',0);
-
-
 class Reloj{
     constructor(minutos){
         this.tiempo = minutos * 60;
@@ -11,11 +8,17 @@ class Reloj{
         this.break=60;//TODO minutos de receso
         this.longBreak=180;//TODO minutos de receso largo
         this.longBreakInterval=9;
+        this.tipoTiempoLog="tiempoFocus";
         this.autoStart;//TODO tipo bool
-        this.logUsuario;
+        this.flagInteval = true;
     }
     
-    
+    disablePlay(){
+        this.flagInteval = false;
+    }
+    enablePlay(){
+        this.flagInteval = true;
+    }
 
     asignarTiempo(minutos){
         this.minutosEscogido = minutos;
@@ -30,10 +33,11 @@ class Reloj{
     modificarVariables(){
         this.pause();
 
-        let minutos = parseInt(document.getElementById("minutos").value);
-        let _break = parseInt(document.getElementById("break").value);
-        let _longBreak = parseInt(document.getElementById("longBreak").value);
-        let _longBreakInterval = parseInt(document.getElementById("longBreakInterval").value);
+        //DOM manipulation con JQuery
+        let minutos = parseInt($("#minutos").val());
+        let _break = parseInt($("#break").val());
+        let _longBreak = parseInt($("#longBreak").val());
+        let _longBreakInterval = parseInt($("#longBreakInterval").val());
         
         //estas dos lineas podrian ser una nueva funcion
         this.asignarTiempo(minutos);
@@ -54,13 +58,19 @@ class Reloj{
     }
 
     play(){
-        this.intervalo = setInterval(() => this.play_intervalo() , 1000);
+        if(this.flagInteval){
+            this.intervalo = setInterval(() => this.play_intervalo() , 1000);
+            this.disablePlay();
+        }
+        
         
     }
     play_intervalo(){
+        this.incrementarTiempoLog(this.tipoTiempoLog);
         if(this.tiempo>0){
             document.getElementById("contador").innerHTML = this.convertirSegundos();
             this.tiempo--;
+            
         }   
         else if(this.tiempo==0){
             document.getElementById("contador").innerHTML = this.convertirSegundos();
@@ -72,6 +82,7 @@ class Reloj{
     //nuevos requerimientos:
     pause(){//poder hacer "pause" al contador
         clearInterval(this.intervalo);
+        this.enablePlay();
         
     }        
     stop(){//poder hacer "stop" al contador, al hacer stop el contador se resetea a los minutos asignados por el usuario
@@ -79,7 +90,18 @@ class Reloj{
         
         //modificar el "display" del Contador     
         this.asignarTiempo(this.minutosEscogido);
-        document.getElementById("contador").innerHTML = this.convertirSegundos();        
+        document.getElementById("contador").innerHTML = this.convertirSegundos(); 
+    
+    }
+    playStop(){
+        if(this.flagInteval){
+            this.play();
+            document.getElementById("play-stop").innerHTML = "Pause";
+        }
+        else{
+            this.pause();
+            document.getElementById("play-stop").innerHTML = "Play";
+        }
     }
     //TODO: manejo automatico de contador de breaks y de focusTime(AutoStart)
     cambiarContador(){
@@ -88,35 +110,77 @@ class Reloj{
         //manejo automiatico de break
         if(this.ciclos % this.longBreakInterval != 0 && this.ciclos % 2 == 1 ){
             this.tiempo = (this.break);
+            this.tipoTiempoLog = "tiempoBreak";
+            this.enablePlay();
         }
         //longBreak(cada 5 sesiones de de focus)
         else if( this.ciclos % this.longBreakInterval == 0) {
             this.tiempo = this.longBreak;
+            this.tipoTiempoLog = "tiempoBreak";
+            this.enablePlay();
         }
 
         else{
             this.asignarTiempo(this.minutosEscogido);
+            this.tipoTiempoLog = "tiempoFocus";
+            this.enablePlay();
+            
         }
         document.getElementById("contador").innerHTML = this.convertirSegundos();
     }
     
 
     //TODO: Log de estadisticas del usuario con json
+        //tipoTiempo puede ser "tiempoFocus" o "tiempoBreak"
+    incrementarTiempoLog(tipoTiempo){
+        let tiempoLog = parseInt((localStorage.getItem(tipoTiempo)), 10) + 1;
+        localStorage.setItem(tipoTiempo, tiempoLog.toString());
+    }
+    tiempoLog(tipoTiempo){
+        return localStorage.getItem(tipoTiempo);
+    }
+    mostrarTiempoLog(id,tipoTiempo){
+        document.getElementById(id).innerHTML = Math.trunc(this.tiempoLog(tipoTiempo)/60);
+    }
+    
     
 }
 //asignar minuto inicial, probando manipulacion DOM
-document.getElementById("minutos").value = 2;
-document.getElementById("break").value = 1;
-document.getElementById("longBreak").value = 3;
-document.getElementById("longBreakInterval").value = 5;
+let valoresInicialesJSON = '{"minutos":2,"break":1,"longBreak":3, "longBreakInterval":5}'
+let valoresInicialesOBJ = JSON.parse(valoresInicialesJSON);
+
+document.getElementById("minutos").value = valoresInicialesOBJ.minutos;
+document.getElementById("break").value = valoresInicialesOBJ.break;
+document.getElementById("longBreak").value = valoresInicialesOBJ.longBreak;
+document.getElementById("longBreakInterval").value = valoresInicialesOBJ.longBreakInterval;
 let minutos = parseInt(document.getElementById("minutos").value);
+
+if(localStorage.length == 0){//
+    localStorage.setItem("tiempoFocus","0");
+    localStorage.setItem("tiempoBreak","0");
+}
 
 pomo = new Reloj(minutos);
 document.getElementById("contador").innerHTML = pomo.convertirSegundos();
+document.getElementById("play-stop").innerHTML = "Play";
 
-let play = document.getElementById("play");
-play.addEventListener("click", () => {pomo.play()});
-let pause = document.getElementById("pause");
-pause.addEventListener("click",  () => {pomo.pause()});
-let _stop = document.getElementById("stop");
-_stop.addEventListener("click",  () => {pomo.stop()});
+//Eventos con JQuery 
+let play = $('#play');
+play.click(()=>{pomo.play()});
+let pause = $("#pause");
+pause.click(() => {pomo.pause()});
+let _stop = $('#stop');
+_stop.click(() => {pomo.stop()});
+let playStop = $('#play-stop');
+playStop.click(() => {pomo.playStop()})
+let _minutosFocus = $('#contenedorMinutosFocus');
+_minutosFocus.click(() => {pomo.mostrarTiempoLog('minutosFocus','tiempoFocus')});
+let _minutosBreak = $('#contenedorMinutosBreak');
+_minutosBreak.click(() => {pomo.mostrarTiempoLog('minutosBreak','tiempoBreak')});
+
+//Animaciones con JQuery
+$("body").hide();
+$(document).ready(function() {
+    $("body").fadeIn(2000);
+});
+

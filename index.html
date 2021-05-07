@@ -5,45 +5,122 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
     <title>Pomo - </title>
 </head>
 <body>
-    <nav>
-        <div>Pomo</div>
-        <div>User Statistics</div>
-        <div>Configuration</div>
-    </nav>
-    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Pomo</a>
+          
+          <div class="navbar-expand" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link " aria-current="page" href="#">
+                  <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#configuration">
+                    Configuration
+                  </button>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#userStatistics">
+                    User Statistics
+                  </button>
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+        </div>
+      </nav>
+
     <main>
-        <div class="contador flexr">
-            <div class="reloj flexr">
-                <p class="reloj-font flexc" id='contador'>__</p>
+        <div class="test">
+            <div class="contador flexr">
+                <div class="reloj flexr">
+                    <p class="reloj-font flexc" id='contador'>__</p>
+                </div>
+                
             </div>
+            <!--
+            <div class="botones flexr botones-padding">
+                <p id="play">Play</p>
+                <p id="pause">Pause</p>
+                <p id="stop">Stop</p>
+               
+            </div>
+            --->
+            <div class="botones flexr botones-padding">
+              
+              <button type="button" class="btn btn-dark">
+                <p id="play-stop">__</p>
+              </button>
+          </div>
             
         </div>
-        <div class="botones flexr botones-padding">
-            <p id="play">Play</p>
-            <p id="pause">Pause</p>
-            <p id="stop">Stop</p>
+        
+        
+        
+        <!-- Modal -->
+        <div class="modal fade" id="configuration" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Configuration</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+                <div class="modal-body">
+                  <div class="flexc ">
+                    <label for="minutos">Pomodoro:</label><br>
+                    <input type="text" id="minutos"><br>
+                    <label for="B">Break:</label><br>
+                    <input type="text" id="break"><br>
+                    <label for="longBreak">Long Break:</label><br>
+                    <input type="text" id="longBreak"><br>
+                    <label for="longBreakInterval">Intervalo Long Break:</label><br>
+                    <input type="text" id="longBreakInterval"><br>            
+                    <label for="autoStart">Auto Start?</label><br>
+                    <input type="checkbox" id="autoStart">
+                    
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="pomo.modificarVariables()">Save changes</button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="flexc ">
-            <label for="minutos">Pomodoro:</label><br>
-            <input type="text" id="minutos"><br>
-            <label for="B">Break:</label><br>
-            <input type="text" id="break"><br>
-            <label for="longBreak">Long Break:</label><br>
-            <input type="text" id="longBreak"><br>
-            <label for="longBreakInterval">Intervalo Long Break:</label><br>
-            <input type="text" id="longBreakInterval"><br>            
-            <label for="autoStart">Auto Start?</label><br>
-            <input type="checkbox" id="autoStart">
-            <input type="submit" value="Submit" onclick="pomo.modificarVariables()">
+        <!-- Modal -->
+        <div class="modal fade" id="userStatistics" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">User Statistics</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="">
             
-        </div> 
+                  <p id="contenedorMinutosFocus">minutosFocus: <p id="minutosFocus"></p> </p>
+                  <p id="contenedorMinutosBreak">minutosBreak: <p id="minutosBreak"></p> </p>
+                  <p id="racha"></p>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
     </main>
     <footer>
             
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="./script/main.js"></script> 
 </body>
 </html>
-<script src="./script/main.js"></script>

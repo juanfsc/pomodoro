@@ -6,6 +6,9 @@ nav{
 body{
     font-size: 1.5rem;
 }
+.test{
+    height: 80%;
+}
 .flexr{
     display: flex;   
     flex-direction: row;
@@ -21,8 +24,8 @@ body{
 .reloj {
     background-color: rgb(185, 185, 185);
     border-radius: 50%;
-    width: 75vw;
-    height: 75vw;
+    width: 15rem;
+    height:15rem;
 
 }
 .reloj-font{
@@ -30,6 +33,7 @@ body{
 }
 .contador{
     padding-top: 50px;
+    padding-bottom: 50px;
     
 }
 .botones{
