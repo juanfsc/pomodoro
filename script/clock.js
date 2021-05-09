@@ -62,7 +62,7 @@ class Clock{
 
     play(){
         if(this.flagInteval){
-            this.intervalo = setInterval(() => this.play_intervalo() , 10);
+            this.intervalo = setInterval(() => this.play_intervalo() , 1000);
             this.disablePlay();
         }
         
@@ -97,16 +97,19 @@ class Clock{
     
     }
     setPomodoro(){
+        this.pause();
         this.asignarTiempo(this.minutosEscogido);
         this.tipoTiempoLog = "tiempoFocus";
         document.getElementById("contador").innerHTML = this.convertirSegundos();
     }
     setShortBreak(){
+        this.pause();
         this.tiempo = (this.break);
         this.tipoTiempoLog = "tiempoBreak";
         document.getElementById("contador").innerHTML = this.convertirSegundos();
     }
     setLongBreak(){
+        this.pause();
         this.tiempo = this.longBreak;
         this.tipoTiempoLog = "tiempoBreak";
         document.getElementById("contador").innerHTML = this.convertirSegundos();
