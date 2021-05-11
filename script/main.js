@@ -1,3 +1,4 @@
+
 //asignar minuto inicial, probando manipulacion DOM
 //let valoresInicialesJSON = '{"minutos":2,"break":1,"longBreak":3, "longBreakInterval":5}'
 //let valoresInicialesOBJ = JSON.parse(valoresInicialesJSON);
@@ -18,7 +19,7 @@ document.getElementById("break").value = localStorage.break;
 document.getElementById("longBreak").value = localStorage.longBreak;
 document.getElementById("longBreakInterval").value = localStorage.longBreakInterval;
 
-pomo = new Clock(localStorage.minutos, localStorage.break, localStorage.longBreak);
+pomo = new Clock(localStorage.minutos, localStorage.break, localStorage.longBreak, localStorage.longBreakInterval);
 document.getElementById("contador").innerHTML = pomo.convertirSegundos();
 document.getElementById("play-stop").innerHTML = "Play";
 

@@ -1,12 +1,12 @@
 class Clock{
-    constructor(minutos,_break,longBreak){
+    constructor(minutos,_break,longBreak,_longBreakInterval){
         this.tiempo = minutos * 60;
         this.minutosEscogido = minutos;//util al momento de hacer Reloj.stop();
         this.intervalo;
         this.ciclos=0;
         this.break=_break*60;//TODO minutos de receso
         this.longBreak=longBreak*60;//TODO minutos de receso largo
-        this.longBreakInterval=9;
+        this.longBreakInterval=_longBreakInterval;
         this.tipoTiempoLog="tiempoFocus";
         this.autoStart;//TODO tipo bool
         this.flagInteval = true;
@@ -26,7 +26,7 @@ class Clock{
     asignarBreak(_break,_longBreak, _longBreakInterval ){
         this.break = _break * 60;
         this.longBreak  = _longBreak * 60;
-        this.longBreakInterval = _longBreakInterval + 4;//?
+        this.longBreakInterval = _longBreakInterval;//?
     }
     
     modificarVariables(){
@@ -62,7 +62,7 @@ class Clock{
 
     play(){
         if(this.flagInteval){
-            this.intervalo = setInterval(() => this.play_intervalo() , 1000);
+            this.intervalo = setInterval(() => this.play_intervalo() , 1);
             this.disablePlay();
         }
         
@@ -101,18 +101,23 @@ class Clock{
         this.asignarTiempo(this.minutosEscogido);
         this.tipoTiempoLog = "tiempoFocus";
         document.getElementById("contador").innerHTML = this.convertirSegundos();
+        document.getElementById("play-stop").innerHTML = "Play";
     }
     setShortBreak(){
         this.pause();
+        document.getElementById("play-stop").innerHTML = "Play";
         this.tiempo = (this.break);
         this.tipoTiempoLog = "tiempoBreak";
         document.getElementById("contador").innerHTML = this.convertirSegundos();
+        
     }
     setLongBreak(){
         this.pause();
+        document.getElementById("play-stop").innerHTML = "Play";
         this.tiempo = this.longBreak;
         this.tipoTiempoLog = "tiempoBreak";
         document.getElementById("contador").innerHTML = this.convertirSegundos();
+        
     }
     playStop(){
         if(this.flagInteval){
@@ -129,13 +134,14 @@ class Clock{
         this.ciclos = this.ciclos + 1;
 
         //manejo automiatico de break
-        if(this.ciclos % this.longBreakInterval != 0 && this.ciclos % 2 == 1 ){
+        if(this.ciclos % (2*this.longBreakInterval - 1) != 0 && this.ciclos % 2 == 1 ){
             this.setShortBreak();
             this.enablePlay();
         }
         //longBreak(cada 5 sesiones de de focus)
-        else if( this.ciclos % this.longBreakInterval == 0) {
+        else if(this.ciclos % (2*this.longBreakInterval - 1) == 0) {
             this.setLongBreak();
+            this.ciclos = 0;
             this.enablePlay();
         }
 
