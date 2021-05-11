@@ -60,3 +60,21 @@ $(document).ready(function () {
     $("body").fadeIn(2000);
 });
 
+
+let autoStartPomodoro = $('#autoStartPomodoro');
+let autoStartBreak = $('#autoStartBreak');
+
+
+function autoStart(checkBox,func1,func2) {  
+    checkBox.on('click',function () {
+        if (checkBox.is(':checked')) {
+            console.log('You have Checked it');
+            func1();
+        } else {
+            console.log('You Un-Checked it');
+            func2();
+        }
+    });
+}
+autoStart(autoStartPomodoro,(() => { pomo.enableAutoStartPomodoro()}) , (() => { pomo.enableAutoStartPomodoro() }) );
+autoStart(autoStartBreak, (() => { pomo.enableAutoStartBreak()}), (() => { pomo.enableAutoStartBreak()}));

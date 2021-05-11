@@ -8,8 +8,9 @@ class Clock{
         this.longBreak=longBreak*60;//TODO minutos de receso largo
         this.longBreakInterval=_longBreakInterval;
         this.tipoTiempoLog="tiempoFocus";
-        this.autoStart;//TODO tipo bool
-        this.flagInteval = true;
+        this.autoStartPomodoro=false;
+        this.autoStartBreak=false;
+        this.flagInteval = false;
     }
     
     disablePlay(){
@@ -18,7 +19,27 @@ class Clock{
     enablePlay(){
         this.flagInteval = true;
     }
-
+    disableAutoStartPomodoro(){
+        this.autoStartPomodoro = false;
+    }
+    enableAutoStartPomodoro(){
+        this.autoStartPomodoro = true;
+    }
+    disableAutoStartBreak(){
+        this.autoStartBreak = false;
+    }
+    enableAutoStartBreak(){
+        this.autoStartBreak = true;
+    }
+    autoStart(checkBox,tipoBreak) {  
+        checkBox.on('click',function () {
+            if (checkBox.is(':checked')) {
+                tipoBreak = true;
+            } else {
+                tipoBreak = false;
+            }
+        });
+    }
     asignarTiempo(minutos){
         this.minutosEscogido = minutos;
         this.tiempo = minutos * 60;
@@ -30,7 +51,7 @@ class Clock{
     }
     
     modificarVariables(){
-        this.pause();
+        //this.pause();
 
         //DOM manipulation con JQuery
         localStorage.minutos = parseInt($("#minutos").val())
@@ -65,9 +86,6 @@ class Clock{
             this.intervalo = setInterval(() => this.play_intervalo() , 1);
             this.disablePlay();
         }
-        //
-        //
-        //
         
     }
     play_intervalo(){
@@ -99,14 +117,14 @@ class Clock{
     
     }
     setPomodoro(){
-        this.pause();
+        //this.pause();
         this.asignarTiempo(this.minutosEscogido);
         this.tipoTiempoLog = "tiempoFocus";
         document.getElementById("contador").innerHTML = this.convertirSegundos();
         document.getElementById("play-stop").innerHTML = "Play";
     }
     setShortBreak(){
-        this.pause();
+        //this.pause();
         document.getElementById("play-stop").innerHTML = "Play";
         this.tiempo = (this.break);
         this.tipoTiempoLog = "tiempoBreak";
@@ -114,7 +132,7 @@ class Clock{
         
     }
     setLongBreak(){
-        this.pause();
+        //this.pause();
         document.getElementById("play-stop").innerHTML = "Play";
         this.tiempo = this.longBreak;
         this.tipoTiempoLog = "tiempoBreak";
@@ -137,19 +155,42 @@ class Clock{
 
         //manejo automiatico de break
         if(this.ciclos % (2*this.longBreakInterval - 1) != 0 && this.ciclos % 2 == 1 ){
-            this.setShortBreak();
-            this.enablePlay();
+            if(this.autoStartBreak){
+                this.setShortBreak();
+                this.enablePlay();
+                this.play();
+            }
+            else{
+                this.setShortBreak();
+                this.enablePlay();
+            }
+            
         }
         //longBreak(cada 5 sesiones de de focus)
         else if(this.ciclos % (2*this.longBreakInterval - 1) == 0) {
-            this.setLongBreak();
-            this.ciclos = 0;
-            this.enablePlay();
+            if(this.autoStartBreak){
+                this.setLongBreak();
+                this.ciclos = 0;
+                this.enablePlay();
+                this.play();
+            }
+            else{
+                this.setLongBreak();
+                this.ciclos = 0;
+                this.enablePlay();
+            }
         }
 
         else{
-            this.setPomodoro();
-            this.enablePlay();
+            if(this.autoStartPomodoro){
+                this.setPomodoro();
+                this.enablePlay();
+                this.play();
+            }
+            else{
+                this.setPomodoro();
+                this.enablePlay();
+            }
             
         }
         
