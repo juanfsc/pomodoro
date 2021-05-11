@@ -83,7 +83,7 @@ class Clock{
 
     play(){
         if(this.flagInteval){
-            this.intervalo = setInterval(() => this.play_intervalo() , 1);
+            this.intervalo = setInterval(() => this.play_intervalo() , 1000);
             this.disablePlay();
         }
         
