@@ -12,6 +12,7 @@ class Clock{
         this.autoStartPomodoro=false;
         this.autoStartBreak=false;
         this.flagInteval = false;
+        this.bell = document.querySelector("audio");
     }
     
     disablePlay(){
@@ -124,6 +125,7 @@ class Clock{
             this.progress();
             clearInterval(this.intervalo);
             this.cambiarContador();
+            this.bell.play();
         }
     }
     //nuevos requerimientos:
