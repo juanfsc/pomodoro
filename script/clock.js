@@ -75,9 +75,10 @@ class Clock{
     convertirSegundos(){
         let minutos = Math.floor(this.tiempo/60);
         let segundos = this.tiempo % 60;
-         
+        
         segundos = segundos < 10 ? "0" + segundos : segundos;
         
+        minutos = minutos <  10 ? "0" + minutos : minutos;
         
         return minutos + ":" + segundos;
     }

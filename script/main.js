@@ -63,9 +63,9 @@ $(document).ready(function () {
 
 let autoStartPomodoro = $('#autoStartPomodoro');
 let autoStartBreak = $('#autoStartBreak');
+let dark_Mode = $('#darkMode');
 
-
-function autoStart(checkBox,func1,func2) {  
+function checked(checkBox,func1,func2) {  
     checkBox.on('click',function () {
         if (checkBox.is(':checked')) {
             console.log('You have Checked it');
@@ -76,6 +76,20 @@ function autoStart(checkBox,func1,func2) {
         }
     });
 }
-autoStart(autoStartPomodoro,(() => { pomo.enableAutoStartPomodoro()}) , (() => { pomo.disableAutoStartPomodoro() }) );
-autoStart(autoStartBreak, (() => { pomo.enableAutoStartBreak()}), (() => { pomo.disableAutoStartBreak()}));
-
+checked(autoStartPomodoro,(() => { pomo.enableAutoStartPomodoro()}) , (() => { pomo.disableAutoStartPomodoro() }) );
+checked(autoStartBreak, (() => { pomo.enableAutoStartBreak()}), (() => { pomo.disableAutoStartBreak()}));
+checked(dark_Mode, darkMode, lightMode);
+function darkMode(){
+    $("body").css("background-color","black");
+    $("circle").attr("stroke","white");
+    $(".navbar-brand").css("color","white");
+    $("text").attr("fill","white");
+    //pomo.darkMode();
+}
+function lightMode(){
+    $("body").css("background-color","white");
+    $("circle").attr("stroke","black");
+    $(".navbar-brand").css("color","black");
+    $("text").attr("fill","black");
+    //pomo.darkMode();
+}
