@@ -36,42 +36,56 @@
     </div>
   </nav>
 
-  <main>
-    <div class="botones flexr botones-padding ">
-      <button type="button" class="btn btn-dark play-stop-button">
-        <p id="buttonPomodoro">Pomodoro</p>
-      </button>
-      <button type="button" class="btn btn-dark play-stop-button">
-        <p id="buttonShortBreak">Short Break</p>
-      </button>
-      <button type="button" class="btn btn-dark play-stop-button">
-        <p id="buttonLongBreak">Long Break</p>
-      </button>
-    </div>
-    <div class="test">
-      <div class="contador flexr">
-        <div class="reloj flexr">
-          <p class="reloj-font flexc" id='contador'>__</p>
-        </div>
-
-      </div>
-      <!--
-            <div class="botones flexr botones-padding">
-                <p id="play">Play</p>
-                <p id="pause">Pause</p>
-                <p id="stop">Stop</p>
-               
-            </div>
-            --->
+  <main id="main">
+    <div>
       <div class="botones flexr botones-padding ">
-
         <button type="button" class="btn btn-dark play-stop-button">
-          <p id="play-stop">__</p>
+          <p id="buttonPomodoro">Pomodoro</p>
+        </button>
+        <button type="button" class="btn btn-dark play-stop-button">
+          <p id="buttonShortBreak">Short Break</p>
+        </button>
+        <button type="button" class="btn btn-dark play-stop-button">
+          <p id="buttonLongBreak">Long Break</p>
         </button>
       </div>
-
-      
+      <div class="test">
+        
+        <div class="flexr" >
+            
+          <svg class="progress-ring" width="300" height="300">
+            <text x="95" y="165" class="reloj-font flexc"id='contador'>This is some text</text>
+            <circle
+              class="progress-ring__circle"
+              stroke="black"
+              stroke-width="4"
+              fill="transparent"
+              r="142"
+              cx="150"
+              cy="150">
+            </circle>
+            
+          </svg>
+          
+        </div>
+        <div class="botones flexr botones-padding ">
+  
+          <button type="button" class="btn btn-dark play-stop-button">
+            <p id="play-stop">__</p>
+          </button>
+        </div>
+  
+        
+      </div>
+      <div>
+        
+          
+        
+        
+      </div>
+             
     </div>
+    
 
 
 

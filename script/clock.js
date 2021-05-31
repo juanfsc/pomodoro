@@ -1,9 +1,10 @@
 class Clock{
     constructor(minutos,_break,longBreak,_longBreakInterval){
         this.tiempo = minutos * 60;
-        this.minutosEscogido = minutos;//util al momento de hacer Reloj.stop();
+        this.minutosEscogido = this.tiempo;//util al momento de hacer Reloj.stop();
         this.intervalo;
         this.ciclos=0;
+        this.pomodoro=minutos*60;
         this.break=_break*60;//TODO minutos de receso
         this.longBreak=longBreak*60;//TODO minutos de receso largo
         this.longBreakInterval=_longBreakInterval;
@@ -41,7 +42,7 @@ class Clock{
         });
     }
     asignarTiempo(minutos){
-        this.minutosEscogido = minutos;
+        this.pomodoro = minutos*60;
         this.tiempo = minutos * 60;
     }
     asignarBreak(_break,_longBreak, _longBreakInterval ){
@@ -88,16 +89,38 @@ class Clock{
         }
         
     }
+    progress(){
+        let circle = document.querySelector('circle');
+        let radius = circle.r.baseVal.value;
+        let circumference = radius * 2 * Math.PI;
+
+        circle.style.strokeDasharray = `${circumference} ${circumference}`;
+        circle.style.strokeDashoffset = `${circumference}`;
+
+        function setProgress(percent) {
+            let offset = (circumference - percent / 100 * circumference);
+            circle.style.strokeDashoffset = offset;
+        }
+        
+        let inputt =Math.min(100,((100*(this.minutosEscogido - this.tiempo))/(this.minutosEscogido)));
+        console.log(inputt);
+        console.log(circumference);
+        setProgress(inputt); 
+        
+    }
+
     play_intervalo(){
         this.incrementarTiempoLog(this.tipoTiempoLog);
         if(this.tiempo>0){
             document.getElementById("contador").innerHTML = this.convertirSegundos();
+            this.progress();
             this.tiempo--;
             
         }   
         else if(this.tiempo==0){
             document.getElementById("contador").innerHTML = this.convertirSegundos();
             this.tiempo--;
+            this.progress();
             clearInterval(this.intervalo);
             this.cambiarContador();
         }
@@ -108,17 +131,10 @@ class Clock{
         this.enablePlay();
         
     }        
-    stop(){//poder hacer "stop" al contador, al hacer stop el contador se resetea a los minutos asignados por el usuario
-        this.pause();
-        
-        //modificar el "display" del Contador     
-        this.asignarTiempo(this.minutosEscogido);
-        document.getElementById("contador").innerHTML = this.convertirSegundos(); 
-    
-    }
     setPomodoro(){
         //this.pause();
-        this.asignarTiempo(this.minutosEscogido);
+        this.tiempo = (this.pomodoro);
+        this.minutosEscogido = this.tiempo;
         this.tipoTiempoLog = "tiempoFocus";
         document.getElementById("contador").innerHTML = this.convertirSegundos();
         document.getElementById("play-stop").innerHTML = "Play";
@@ -127,6 +143,7 @@ class Clock{
         //this.pause();
         document.getElementById("play-stop").innerHTML = "Play";
         this.tiempo = (this.break);
+        this.minutosEscogido = this.tiempo;
         this.tipoTiempoLog = "tiempoBreak";
         document.getElementById("contador").innerHTML = this.convertirSegundos();
         
@@ -135,6 +152,7 @@ class Clock{
         //this.pause();
         document.getElementById("play-stop").innerHTML = "Play";
         this.tiempo = this.longBreak;
+        this.minutosEscogido = this.tiempo;
         this.tipoTiempoLog = "tiempoBreak";
         document.getElementById("contador").innerHTML = this.convertirSegundos();
         

@@ -78,3 +78,4 @@ function autoStart(checkBox,func1,func2) {
 }
 autoStart(autoStartPomodoro,(() => { pomo.enableAutoStartPomodoro()}) , (() => { pomo.disableAutoStartPomodoro() }) );
 autoStart(autoStartBreak, (() => { pomo.enableAutoStartBreak()}), (() => { pomo.disableAutoStartBreak()}));
+

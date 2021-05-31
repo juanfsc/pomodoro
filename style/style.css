@@ -9,6 +9,11 @@ body{
 .test{
     height: 80%;
 }
+#contain {
+    margin: 20px;
+    width: 200px;
+    height: 200px;
+}
 .flexr{
     display: flex;   
     flex-direction: row;
@@ -32,7 +37,7 @@ body{
 .reloj-font{
     font-size: 3.5rem;
 }
-.contador{
+.contadorr{
     padding-top: 50px;
     padding-bottom: 50px;
     
@@ -68,6 +73,7 @@ input{
 .play-stop-button p{
     margin:0px;
 }
+
 @media(max-width: 375px){
     
 }
