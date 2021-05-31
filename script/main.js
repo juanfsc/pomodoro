@@ -3,6 +3,60 @@
 //let valoresInicialesJSON = '{"minutos":2,"break":1,"longBreak":3, "longBreakInterval":5}'
 //let valoresInicialesOBJ = JSON.parse(valoresInicialesJSON);
 
+function formatQuote(data){
+    let template = 
+        `<div id="rawData">
+            Quote: ${data.contents.quotes[0].quote}
+            Author: ${data.contents.quotes[0].author}
+        </div>`;
+    $("#quoteOfTheDay").empty();
+    $("#quoteOfTheDay").append(template);
+}
+class Quote{
+    constructor(){
+        this.api_url = `https://quotes.rest/qod?category=`;
+        this.latestQuote;
+    }
+    displayQuote(){ 
+        let quote = $("#quote").val();
+        console.log(quote);
+        this.getQuote(quote);
+    } 
+    getRandomCategory(){
+        let categories = ["inspire","management","sports","life","funny","love","art","students"];
+        let index = Math.floor(Math.random()*(categories.length-1));
+        console.log(index);
+        let category = categories[index];
+        console.log(category);
+        return categories[index];
+    }
+    saveQuote(data){
+        localStorage.latestQuote = data;
+        this.latestQuote = data;
+    }
+    getQuote() { 
+        let category = this.getRandomCategory();
+        $.ajax({
+            url: `${this.api_url}${category}`,
+        })
+        .done(function (data) {
+            console.log(data);
+            saveQuote(data);
+            formatQuote(data); 
+        })
+        .fail(function(jqXHR, textStatus){
+            console.log(jqXHR);
+            console.log(textStatus);
+            formatQuote(latestQuote);
+        })
+        .always(function(){
+            console.log("completo");
+        });
+    }
+       
+}
+let quote = new Quote; 
+
 if (localStorage.length != 6) {//
     //primer setUp de localStorage
     localStorage.clear();
@@ -19,7 +73,7 @@ document.getElementById("break").value = localStorage.break;
 document.getElementById("longBreak").value = localStorage.longBreak;
 document.getElementById("longBreakInterval").value = localStorage.longBreakInterval;
 
-pomo = new Clock(localStorage.minutos, localStorage.break, localStorage.longBreak, localStorage.longBreakInterval);
+pomo = new Clock(localStorage.minutos, localStorage.break, localStorage.longBreak, localStorage.longBreakInterval,quote);
 document.getElementById("contador").innerHTML = pomo.convertirSegundos();
 document.getElementById("play-stop").innerHTML = "Play";
 
@@ -93,3 +147,4 @@ function lightMode(){
     $("text").attr("fill","black");
     //pomo.darkMode();
 }
+

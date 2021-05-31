@@ -1,5 +1,5 @@
 class Clock{
-    constructor(minutos,_break,longBreak,_longBreakInterval){
+    constructor(minutos,_break,longBreak,_longBreakInterval,quote){
         this.tiempo = minutos * 60;
         this.minutosEscogido = this.tiempo;//util al momento de hacer Reloj.stop();
         this.intervalo;
@@ -13,6 +13,7 @@ class Clock{
         this.autoStartBreak=false;
         this.flagInteval = false;
         this.bell = document.querySelector("audio");
+        this.quote = quote;
     }
     
     disablePlay(){
@@ -45,6 +46,7 @@ class Clock{
     asignarTiempo(minutos){
         this.pomodoro = minutos*60;
         this.tiempo = minutos * 60;
+        this.minutosEscogido= this.pomodoro;
     }
     asignarBreak(_break,_longBreak, _longBreakInterval ){
         this.break = _break * 60;
@@ -86,7 +88,7 @@ class Clock{
 
     play(){
         if(this.flagInteval){
-            this.intervalo = setInterval(() => this.play_intervalo() , 1000);
+            this.intervalo = setInterval(() => this.play_intervalo() , 10);
             this.disablePlay();
         }
         
@@ -105,8 +107,7 @@ class Clock{
         }
         
         let inputt =Math.min(100,((100*(this.minutosEscogido - this.tiempo))/(this.minutosEscogido)));
-        console.log(inputt);
-        console.log(circumference);
+
         setProgress(inputt); 
         
     }
@@ -126,6 +127,7 @@ class Clock{
             clearInterval(this.intervalo);
             this.cambiarContador();
             this.bell.play();
+            this.quote.displayQuote();
         }
     }
     //nuevos requerimientos:
