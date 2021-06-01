@@ -1,0 +1,31 @@
+{
+    "success": {
+        "total": 1
+    },
+    "contents": {
+        "quotes": [
+            {
+                "quote": "We are each gifted in a unique and important way. It is our privilege and our adventure to discover our own special light",
+                "length": "121",
+                "author": "Mary Dunbar",
+                "tags": [
+                    "discover",
+                    "inspire",
+                    "self"
+                ],
+                "category": "inspire",
+                "language": "en",
+                "date": "2021-05-31",
+                "permalink": "https://theysaidso.com/quote/mary-dunbar-we-are-each-gifted-in-a-unique-and-important-way-it-is-our-privilege",
+                "id": "NMrdeKJZAouC1i06aoMm3weF",
+                "background": "https://theysaidso.com/img/qod/qod-inspire.jpg",
+                "title": "Inspiring Quote of the day"
+            }
+        ]
+    },
+    "baseurl": "https://theysaidso.com",
+    "copyright": {
+        "year": 2023,
+        "url": "https://theysaidso.com"
+    }
+}

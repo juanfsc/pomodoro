@@ -3,24 +3,61 @@
 //let valoresInicialesJSON = '{"minutos":2,"break":1,"longBreak":3, "longBreakInterval":5}'
 //let valoresInicialesOBJ = JSON.parse(valoresInicialesJSON);
 
-function formatQuote(data){
+function formatQuote(quote,author){
     let template = 
-        `<div id="rawData">
-            Quote: ${data.contents.quotes[0].quote}
-            Author: ${data.contents.quotes[0].author}
+        `<div id="rawData" class="flexr">
+            Quote: ${quote}
+            Author: ${author}
         </div>`;
     $("#quoteOfTheDay").empty();
     $("#quoteOfTheDay").append(template);
+}
+function saveQuote(data){
+    localStorage.setItem("quote",data.contents.quotes[0].quote);
+    localStorage.setItem("author",data.contents.quotes[0].author);       
+}
+function ajaxGet(url,urlFail){
+    $.ajax({
+        url: url,
+    })
+    .done(function (data) {
+        console.log(data);
+        saveQuote(data);
+        formatQuote(data.contents.quotes[0].quote,data.contents.quotes[0].author); 
+    })
+    .fail(function(jqXHR, textStatus){
+        console.log(jqXHR);
+        console.log(textStatus);
+        $.ajax({
+            url: urlFail,
+        })
+        .done(function (data) {
+            console.log(data);
+            saveQuote(data);
+            formatQuote(data.contents.quotes[0].quote,data.contents.quotes[0].author); 
+        })
+        .fail(function(jqXHR, textStatus){
+            console.log(jqXHR);
+            console.log(textStatus);
+        })
+        .always(function(){
+            console.log("completo Por Fail");
+        });
+    })
+    .always(function(){
+        console.log("completo");
+    });
 }
 class Quote{
     constructor(){
         this.api_url = `https://quotes.rest/qod?category=`;
         this.latestQuote;
+        
     }
     displayQuote(){ 
         let quote = $("#quote").val();
         console.log(quote);
-        this.getQuote(quote);
+        this.getQuote(`${this.api_url}`);
     } 
     getRandomCategory(){
         let categories = ["inspire","management","sports","life","funny","love","art","students"];
@@ -30,28 +67,10 @@ class Quote{
         console.log(category);
         return categories[index];
     }
-    saveQuote(data){
-        localStorage.latestQuote = data;
-        this.latestQuote = data;
-    }
-    getQuote() { 
+
+    getQuote(url) { 
         let category = this.getRandomCategory();
-        $.ajax({
-            url: `${this.api_url}${category}`,
-        })
-        .done(function (data) {
-            console.log(data);
-            saveQuote(data);
-            formatQuote(data); 
-        })
-        .fail(function(jqXHR, textStatus){
-            console.log(jqXHR);
-            console.log(textStatus);
-            formatQuote(latestQuote);
-        })
-        .always(function(){
-            console.log("completo");
-        });
+        ajaxGet(`${url}${category}`,"../json/default.json");
     }
        
 }
