@@ -5,24 +5,27 @@
 
 function formatQuote(quote,author){
     let template = 
-        `<div id="rawData" class="flexr">
-            Quote: ${quote}
-            Author: ${author}
+        `<div class="flexr">
+            <div id="rawData" class="flexc quote">
+                <div>
+                    Quote: ${quote}
+                </div>
+                <div>
+                    Author: ${author}
+                </div>
+            </div>
         </div>`;
     $("#quoteOfTheDay").empty();
     $("#quoteOfTheDay").append(template);
 }
-function saveQuote(data){
-    localStorage.setItem("quote",data.contents.quotes[0].quote);
-    localStorage.setItem("author",data.contents.quotes[0].author);       
-}
+
 function ajaxGet(url,urlFail){
     $.ajax({
         url: url,
     })
     .done(function (data) {
         console.log(data);
-        saveQuote(data);
+        //saveQuote(data);
         formatQuote(data.contents.quotes[0].quote,data.contents.quotes[0].author); 
     })
     .fail(function(jqXHR, textStatus){
@@ -33,7 +36,7 @@ function ajaxGet(url,urlFail){
         })
         .done(function (data) {
             console.log(data);
-            saveQuote(data);
+            //saveQuote(data);
             formatQuote(data.contents.quotes[0].quote,data.contents.quotes[0].author); 
         })
         .fail(function(jqXHR, textStatus){

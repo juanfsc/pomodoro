@@ -71,6 +71,11 @@ input{
 .play-stop-button p{
     margin:0px;
 }
+.quote{
+    font-size: 1rem;
+    padding-left: 25px;
+    padding-right: 25px;
+}
 
 @media(max-width: 375px){
     
